@@ -40,7 +40,7 @@
     import axios from 'axios'
 
     export default {
-        name: "NewThread",
+        name: "new-journal-entry",
         data: function() {
             return {
                 title: '',
@@ -74,7 +74,7 @@
                 },{ headers: { 'Authorization': jwt } })
                     .then(result => {
                         const threadId = result.data.id;
-                        this.$router.push({name: "Thread", params: {threadId: threadId}});
+                        this.$router.push({name: "journal-entry", params: {threadId: threadId}});
                     }, error => {
                         console.error(error)
                     })

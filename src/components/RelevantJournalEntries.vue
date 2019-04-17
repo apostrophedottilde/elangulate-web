@@ -50,7 +50,7 @@
                     })
             },
             switchToSingleJournalEntryView: function(entryId) {
-                this.$router.push({ name: 'journal-entry', params: { entryId }})
+                this.$router.push({name: "journal-entry", params: {threadId: entryId}});
             }
         }
     }

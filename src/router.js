@@ -4,7 +4,7 @@ import RelevantJournalEntries from './components/RelevantJournalEntries'
 import UserRegistrationPage from './components/UserRegistrationPage'
 import LoginPage from './components/LoginPage'
 import JournalEntry from './components/JournalEntry'
-import NewThread from './components/NewThread'
+import NewThread from './components/NewJournalEntry'
 
 Vue.use(Router);
 
@@ -26,8 +26,8 @@ export default new Router({
             component: UserRegistrationPage
         },
         {
-            path: '/threads/new',
-            name: 'new-thread',
+            path: '/journal-entries/new',
+            name: 'new-journal-entry',
             component: NewThread
         },
         {
@@ -37,7 +37,7 @@ export default new Router({
             props: true
         },
         {
-            path: '/threads',
+            path: '/journal-entries',
             name: 'relevant-journal-entries',
             component: RelevantJournalEntries
         }

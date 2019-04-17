@@ -9,7 +9,7 @@
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <router-link class="nav-link" :to="{ name: 'new-thread', params: { id: 1234 } }">Make A journal entry</router-link>
+                        <router-link class="nav-link" :to="{ name: 'new-journal-entry', params: { id: 1234 } }">Make A journal entry</router-link>
                     </li>
                     <li class="nav-item">
                         <router-link class="nav-link" :to="{ name: 'relevant-journal-entries', params: { id: 1234 } }">Browse latest Entries</router-link>

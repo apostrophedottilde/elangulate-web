@@ -162,6 +162,11 @@
         background: #fff4f4;
     }
 
+    .correction-sets-container {
+        margin-top: 2em;
+        background: #ffe6e9;
+    }
+
     .correction-set {
         margin-left: 1em;
         margin-right: 1em;
@@ -190,7 +195,5 @@
         text-decoration: underline;
     }
 
-    .correction-sets-container {
-        margin-top: 2em;
-    }
+
 </style>

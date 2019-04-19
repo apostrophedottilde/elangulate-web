@@ -38,7 +38,7 @@
 
         <div class="card correction-sets-container">
             Correction sets
-            <div class="card correction-sets-list" v-for="set in liveCorrectionSets" v-bind:key="set.id">
+            <div class="card correction-sets-list" v-for="correctionSet in liveCorrectionSets" v-bind:key="correctionSet.id">
                 <div class="correction-set">
                     <div class="avatar">
                         <div class="">
@@ -49,11 +49,10 @@
                         </div>
                     </div>
 
-                    <div class="" v-for="correction in set.corrections" v-bind:key="correction.id">
+                    <div class="" v-for="correction in correctionSet.corrections" v-bind:key="correction.id">
                         {{correction.title}}
                         <!--<correction v-bind:correction="correction" v-bind:originalText="findSpecificSentence(0)"></correction>-->
-
-                        <correction v-bind:correction="correction" v-bind:originalText="findSpecificSentence(0)"></correction>
+                        <correction v-bind:correction="correction" v-bind:originalText="findSpecificSentence(correction.sentenceId)"></correction>
                     </div>
                 </div>
             </div>
@@ -64,8 +63,6 @@
 
 <script>
     import axios from 'axios'
-    import NewCorrectionSet from "./NewCorrectionSet";
-    import CorrectionSet from "./CorrectionSet";
     import Correction from "./Correction";
      export default {
         name: "journal-entry",
@@ -96,19 +93,20 @@
             },
              fetchCorrectionSets: function() {
                  const jwt = this.$cookie.get('jwt');
-                 axios.get(`http://localhost:9001/correction-sets`, {headers: {'Authorization': jwt}})
+                 axios.get(`http://localhost:9001/correction-sets?journalEntryId=${this.id}&page=0&size=20`, {headers: {'Authorization': jwt}})
                      .then(result => {
                          this.liveCorrectionSets = result.data;
                      }, error => {
                          console.error(error)
                      })
              },
-            findSpecificSentence: function(id) {
-                const specificSentence = this.entry.sentences.find(s => s.id === id);
+            findSpecificSentence: function(sentenceId) {
+                const specificSentence = this.entry.sentences.find(s => s.id === sentenceId);
                 if(specificSentence) {
-                    console.log(this.entry.sentences)
+                    console.log(this.entry.sentences);
                     return specificSentence.foreignText;
                 }
+                return 'NOT FOUND'
             },
              getFullCorrection: function(correction) {
                  let fullCorrection = '';

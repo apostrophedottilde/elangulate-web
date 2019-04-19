@@ -73,8 +73,8 @@
                     sentences: this.sentences
                 },{ headers: { 'Authorization': jwt } })
                     .then(result => {
-                        const threadId = result.data.id;
-                        this.$router.push({name: "journal-entry", params: {threadId: threadId}});
+                        const journalId = result.data.id;
+                        this.$router.push({name: "journal-entry", params: {threadId: journalId}});
                     }, error => {
                         console.error(error)
                     })

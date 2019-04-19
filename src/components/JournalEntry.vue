@@ -83,7 +83,9 @@
          methods: {
             fetchJournalEntry: function(id) {
                 const jwt = this.$cookie.get('jwt');
-                axios.get(`http://localhost:9001/journal-entries/${id}`, {headers: {'Authorization': jwt}})
+                const base = process.env.VUE_APP_API_ROOT_URL;
+
+                axios.get(`${base}/journal-entries/${id}`, {headers: {'Authorization': jwt}})
                     .then(result => {
                         this.entry = result.data;
                         this.currentCorrections = new Array(this.entry.sentences.length);
@@ -93,7 +95,9 @@
             },
              fetchCorrectionSets: function() {
                  const jwt = this.$cookie.get('jwt');
-                 axios.get(`http://localhost:9001/correction-sets?journalEntryId=${this.id}&page=0&size=20`, {headers: {'Authorization': jwt}})
+                 const base = process.env.VUE_APP_API_ROOT_URL;
+
+                 axios.get(`${base}/correction-sets?journalEntryId=${this.id}&page=0&size=20`, {headers: {'Authorization': jwt}})
                      .then(result => {
                          this.liveCorrectionSets = result.data;
                      }, error => {
@@ -133,8 +137,9 @@
                     journalEntryId: entry.id,
                     corrections: newCorrections
                 };
+                const base = process.env.VUE_APP_API_ROOT_URL;
 
-                axios.post(`http://localhost:9001/correction-sets`, postData, {headers: {'Authorization': jwt}})
+                axios.post(`${base}/correction-sets`, postData, {headers: {'Authorization': jwt}})
                     .then(result => {
                         console.log('saved correction set' + result)
                         this.liveCorrectionSets.push(result.data)

@@ -26,7 +26,9 @@
         },
         methods: {
             login: function () {
-                axios.post('http://localhost:9001/login',
+                const base = process.env.VUE_APP_API_ROOT_URL;
+
+                axios.post(`${base}/login`,
                     {
                         username: this.username,
                         password: this.password,

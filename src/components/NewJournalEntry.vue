@@ -66,7 +66,9 @@
 
                 console.log("Sentences" + JSON.stringify(stitchedSentences));
 
-                axios.post(`http://localhost:9001/journal-entries`, {
+                const base = process.env.VUE_APP_API_ROOT_URL;
+
+                axios.post(`${base}/journal-entries`, {
                     title: this.title,
                     foreignLanguage: "JAPANESE",
                     nativeLanguage: "ENGLISH",

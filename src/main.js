@@ -20,6 +20,8 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.component('thumbnail-image', Thumbnail)
 
 
+
+
 Vue.config.productionTip = false;
 
 new Vue({

@@ -42,7 +42,10 @@
             fetchThreads: function() {
                 const jwt = this.$cookie.get('jwt');
                 console.log(jwt);
-                axios.get('http://localhost:9001/journal-entries?page=0&size=20', { headers: { 'Authorization': jwt } })
+
+                const base = process.env.VUE_APP_API_ROOT_URL;
+
+                axios.get(`${base}/journal-entries?page=0&size=20`, { headers: { 'Authorization': jwt } })
                     .then(result => {
                         result.data.forEach(t => this.journalEntries.push(t));
                     }, error => {

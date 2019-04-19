@@ -38,7 +38,8 @@
         },
         methods: {
             registerUser: function () {
-                axios.post('http://localhost:9001/users/sign-up',
+                const base = process.env.VUE_APP_API_ROOT_URL;
+                axios.post(`${base}/users/sign-up`,
                     {
                         username: this.username,
                         password: this.password,

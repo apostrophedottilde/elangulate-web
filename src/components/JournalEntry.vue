@@ -51,7 +51,6 @@
 
                     <div class="" v-for="correction in correctionSet.corrections" v-bind:key="correction.id">
                         {{correction.title}}
-                        <!--<correction v-bind:correction="correction" v-bind:originalText="findSpecificSentence(0)"></correction>-->
                         <correction v-bind:correction="correction" v-bind:originalText="findSpecificSentence(correction.sentenceId)"></correction>
                     </div>
                 </div>

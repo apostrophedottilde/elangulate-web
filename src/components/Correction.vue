@@ -1,7 +1,7 @@
 <template>
     <div class="stitched-collection">
         <div class="card">
-            <div class="original-text">
+            <div class="greyed original-text">
                 {{originalText}}
             </div>
 
@@ -13,15 +13,19 @@
                 </div>
             </div>
 
-            <div class="card reviews-container">
-                <div>
-                    <input type="text" class="form-control" v-model="commentInput" value="Comment on review"/>
-                    <input type="button" class="btn btn-outline-danger" @click="sumbitReview()" value="Review corrections"/>
-                </div>
-
-                <div class="card reviews" v-for="review in reviews" v-bind:key="review.id">
+            <div>
+                <div class="card  reviews-container" v-for="review in reviews" v-bind:key="review.id">
                     Stars: {{review.stars}}
                     Comment: {{review.comment}}
+                </div>
+                <div v-if="isReviewing" class="card">
+                    <div class="input-group">
+                        <input type="text" class="form-control" v-model="commentInput" value="Comment on review"/>
+                        <input type="button" class="form-control btn btn-outline-danger" @click="sumbitReview()" value="Review corrections"/>
+                    </div>
+                </div>
+                <div v-else>
+                    <a><href @click="addReview()">Review this correction</href></a>
                 </div>
             </div>
 
@@ -46,6 +50,7 @@
         },
         data: function() {
             return {
+                isReviewing: false,
                 commentInput: '',
                 starsInput: 0,
                 isPerfectCorrectionInput: false,
@@ -82,16 +87,21 @@
                 const jwt = this.$cookie.get('jwt');
                 const base = process.env.VUE_APP_API_ROOT_URL;
 
-                axios.post(`${base}/correction-reviews?correctionId=${this.correction.id}`, {
+                axios.post(`${base}/correction-reviews`, {
                         stars: 6,
-                        comment: this.commentInput
+                        comment: this.commentInput,
+                        correctionId: this.correction.id
                     }, {headers: {'Authorization': jwt}})
                     .then(result => {
                         this.reviews.push(result.data);
                         console.log("New Review: " + JSON.stringify(result.data))
+                        this.isReviewing = false;
                     }, error => {
                         console.error(error)
                     })
+            },
+            addReview: function() {
+                this.isReviewing = true;
             }
         }
     }
@@ -107,24 +117,16 @@
         clear: none;
     }
 
-    .reviews {
-        margin-left: 1em;
-        margin-right: 1em;
-        margin-top: 1em;
-        background: #e9e7ff;
+    .greyed {
+        color: #9c9c9c;
+        font-style: italic;
     }
 
     .reviews-container {
         margin-left: 1em;
         margin-right: 1em;
-        margin-top: 1em;
+        margin-top: 0.5em;
         background: #adabc3;
-    }
-
-    .full-correction {
-        color: #5b5b5b;
-        font-style: italic;
-        clear: both;
     }
 
     .stitched-collection {

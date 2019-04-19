@@ -23,7 +23,7 @@
             </div>
 
             <br/><br/>
-            <div class="card">
+            <div class="card correction-suggestions">
                 <h5>Suggest corrections</h5>
                 <div class="" v-for="(sentence, index) in entry.sentences" v-bind:key="sentence.id + '3'">
                     <div class="card">
@@ -51,6 +51,7 @@
 
                     <div class="" v-for="correction in correctionSet.corrections" v-bind:key="correction.id">
                         {{correction.title}}
+                        {{correction.id}}
                         <correction v-bind:correction="correction" v-bind:originalText="findSpecificSentence(correction.sentenceId)"></correction>
                     </div>
                 </div>
@@ -152,6 +153,10 @@
 
 <style scoped>
 
+    .correction-suggestions {
+        background: #9dc0db;
+    }
+
     .avatar {
         clear: initial;
         margin-bottom: 2em;
@@ -160,7 +165,7 @@
     .correction-sets-list {
         margin-left: 1em;
         margin-right: 1em;
-        margin-top: 2em;
+        margin-top: .8em;
         background: #fff4f4;
     }
 

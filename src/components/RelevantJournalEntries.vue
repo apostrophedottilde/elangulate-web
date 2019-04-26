@@ -1,8 +1,9 @@
 <template>
     <div>
         Journal entries in my languages I am learning
-        <div class="card" v-for="entry in foreignJournalEntries" v-bind:key="entry.id">
+        <div class="foreign-language-entry card" v-for="entry in foreignJournalEntries" v-bind:key="entry.id">
             <div @click="switchToSingleJournalEntryView(entry.id)">
+                <b class="card-text">{{entry.foreignLanguage}}</b>
                 <p class="card-text">{{entry.title}}</p>
                 <p class="card-text">{{entry.sentences.foreignLanguage}}</p>
                 <p class="card-text">{{entry.sentences.nativeLanguage}}</p>
@@ -15,8 +16,9 @@
 
         <hr>
         Journal entries in my native languages
-        <div class="card" v-for="entry in nativeJournalEntries" v-bind:key="entry.id">
+        <div class="native-language-entry card" v-for="entry in nativeJournalEntries" v-bind:key="entry.id">
             <div @click="switchToSingleJournalEntryView(entry.id)">
+                <b class="card-text">{{entry.nativeLanguage}}</b>
                 <p class="card-text">{{entry.title}}</p>
                 <p class="card-text">{{entry.sentences.foreignLanguage}}</p>
                 <p class="card-text">{{entry.sentences.nativeLanguage}}</p>
@@ -74,5 +76,13 @@
     .posts-list {
         padding-left: 20px;
         max-width: 56em;
+    }
+
+    .foreign-language-entry {
+        background: #b3edd1;
+    }
+
+    .native-language-entry {
+        background: #c8d4ed;
     }
 </style>

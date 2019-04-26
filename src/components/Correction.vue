@@ -147,5 +147,7 @@
     .ins {
         font-weight: bold;
         color: #5651af;
+        text-decoration: underline;
+        text-decoration-style: double;
     }
 </style>

@@ -1,6 +1,31 @@
 <template>
     <form>
         <div class="input-group mb-3">
+            <div>
+                <div class="input-group mb-3">
+                    <select v-model="selectedForeignLanguage">
+                        <option disabled value="">Please select foreign language</option>
+                        <option>English</option>
+                        <option>Japanese</option>
+                        <option>Russian</option>
+                        <option>Chinese</option>
+                        <option>French</option>
+                        <option>German</option>
+                        <option>Spanish</option>
+                        <option>Italian</option>
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <select v-model="selectedNativeLanguage">
+                        <option disabled value="">Please select native language</option>
+                        <option>English</option>
+                        <option>Italian</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <span class="input-group-text" >Title</span>
             </div>
@@ -18,7 +43,7 @@
         </div>
 
         <div class="input-group mb-3">
-            <div class="input-group-prepend">
+            <div class="language-selection input-group-prepend">
                 <span class="input-group-text">Foreign text</span>
             </div>
             <input v-model="currentForeignSentence" type="text" class="form-control" placeholder="Foreign text"/>
@@ -44,8 +69,8 @@
         data: function() {
             return {
                 title: '',
-                foreignLanguage: '',
-                nativeLanguage: '',
+                selectedForeignLanguage: '',
+                selectedNativeLanguage: '',
                 sentences: [],
                 currentForeignSentence: '',
                 currentNativeSentence: ''
@@ -57,21 +82,12 @@
         methods: {
             submitJournalEntry: function() {
                 const jwt = this.$cookie.get('jwt');
-                const stitchedSentences = this.sentences.map((s, i) => {
-                    return {
-                        foreignText: this.sentences[i].foreignText,
-                        nativeText: this.sentences[i].nativeText
-                    }
-                });
-
-                console.log("Sentences" + JSON.stringify(stitchedSentences));
-
                 const base = process.env.VUE_APP_API_ROOT_URL;
 
                 axios.post(`${base}/journal-entries`, {
                     title: this.title,
-                    foreignLanguage: "JAPANESE",
-                    nativeLanguage: "ENGLISH",
+                    foreignLanguage: this.selectedForeignLanguage,
+                    nativeLanguage: this.selectedNativeLanguage,
                     sentences: this.sentences
                 },{ headers: { 'Authorization': jwt } })
                     .then(result => {
@@ -93,5 +109,17 @@
 </script>
 
 <style scoped>
+    .language-selection {
+        float: left;
+        clear: none;
+    }
 
+    .aParent select {
+        float: left;
+        clear: none;
+    }
+
+    .bParent select {
+        clear: none;
+    }
 </style>

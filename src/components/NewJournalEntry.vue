@@ -33,30 +33,29 @@
         </div>
 
         <div v-for="(sentence, index) in sentences" v-bind:key="index">
-            Sentence {{index}}:
-            <div>
-                {{sentence.foreignText}}
+            <div class="input-group mb-3">
+                <div class="language-selection input-group-prepend">
+                    <span class="input-group-text">Foreign text</span>
+                </div>
+                <input v-model="sentence.foreignText" type="text" class="native-sentence form-control"/>
             </div>
-            <div>
-                {{sentence.nativeText}}
+
+            <div class="translation-offset input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Native translation</span>
+                </div>
+                <input v-model="sentence.nativeText"  type="text" class="form-control" placeholder="Native translation"/>
             </div>
         </div>
 
-        <div class="input-group mb-3">
+        <div v-if="hasSplitParagraph !== true" class="input-group mb-3">
             <div class="language-selection input-group-prepend">
                 <span class="input-group-text">Foreign text</span>
             </div>
-            <input v-model="currentForeignSentence" type="text" class="form-control" placeholder="Foreign text"/>
+            <input v-model="nativeParagraph" type="text" class="form-control" placeholder="Foreign paragraph"/>
         </div>
 
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Native translation</span>
-            </div>
-            <input v-model="currentNativeSentence"  type="text" class="form-control" placeholder="Native translation"/>
-        </div>
-
-        <input v-on:click="addAnotherSentence()" type="button" value="Add another sentence" class="btn btn-primary"/>
+        <input v-on:click="fetchParagraphSplitIntoSentences()" type="button" value="Split paragraph into sentences" class="btn btn-primary"/>
         <input v-on:click="submitJournalEntry()" type="button" value="Submit Thread" class="btn btn-success"/>
     </form>
 </template>
@@ -73,7 +72,10 @@
                 selectedNativeLanguage: '',
                 sentences: [],
                 currentForeignSentence: '',
-                currentNativeSentence: ''
+                currentNativeSentence: '',
+                nativeParagraph: '',
+                splitSentences: [],
+                hasSplitParagraph: false
             }
         },
         created: function() {
@@ -97,12 +99,29 @@
                         console.error(error)
                     })
             },
-            addAnotherSentence: function () {
-                // this.sentences = new Array(this.sentences.length + 1)
-                this.sentences.push({
-                    foreignText: this.currentForeignSentence,
-                    nativeText: this.currentNativeSentence
-                })
+            fetchParagraphSplitIntoSentences: function() {
+                const jwt = this.$cookie.get('jwt');
+                const base = process.env.VUE_APP_API_ROOT_URL;
+
+                axios.post(`${base}/journal-entries/split-journal`, {
+                    foreignLanguage: this.selectedForeignLanguage,
+                    paragraphText: this.nativeParagraph,
+                },{ headers: { 'Authorization': jwt } })
+                    .then(result => {
+                        this.splitSentences = result.data;
+                        this.buildSentencesFromSplitParagraphText(this.splitSentences);
+                        this.hasSplitParagraph = true;
+                    }, error => {
+                        console.error(error)
+                    })
+            },
+            buildSentencesFromSplitParagraphText: function (split) {
+                split.forEach(ss => {
+                    this.sentences.push({
+                        foreignText: ss,
+                        nativeText: this.currentNativeSentence
+                    })
+                });
             }
         }
     }
@@ -121,5 +140,14 @@
 
     .bParent select {
         clear: none;
+    }
+
+    .native-sentence {
+        background: #c9c6e3;
+        color: darkslateblue;
+    }
+
+    .translation-offset {
+        padding-left: 4em;
     }
 </style>

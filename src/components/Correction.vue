@@ -137,6 +137,7 @@
     .del {
         text-decoration: line-through;
         text-decoration-style: double;
+        text-decoration-color: darkred;
         color: #a49898;
     }
 
@@ -147,7 +148,5 @@
     .ins {
         font-weight: bold;
         color: #5651af;
-        text-decoration: underline;
-        text-decoration-style: double;
     }
 </style>

@@ -21,6 +21,46 @@
             <input v-model="password" type="password"  class="form-control" aria-label="Password"/>
         </div>
 
+        <div class="container">
+            <div class="large-12 medium-12 small-12 cell">
+                <label>File
+                    <input type="file" id="profileImage" ref="image" v-on:change="handleFileUpload()"/>
+                </label>
+                <button v-on:click="submitFile()">Submit</button>
+            </div>
+        </div>
+
+        <div class="input-group mb-3">
+            <div>
+                <div class="input-group mb-3">
+                    <select v-on:change="handleAddForeignLanguage($event.target.value)">
+                        <option disabled value="">Please select languages you are learning</option>
+                        <option>English</option>
+                        <option>Japanese</option>
+                        <option>Russian</option>
+                        <option>Chinese</option>
+                        <option>French</option>
+                        <option>German</option>
+                        <option>Spanish</option>
+                        <option>Italian</option>
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <select v-on:change="handleAddNativeLanguage($event.target.value)">
+                        <option disabled value="">Please select your native-level languages</option>
+                        <option>English</option>
+                        <option>Italian</option>
+                    </select>
+                </div>
+
+                Foreign languages learning:
+                {{foreignLanguages}}
+
+                Native spoken languages:
+                {{nativeLanguages}}
+            </div>
+        </div>
+
         <input v-on:click="registerUser" type="button" value="Register" class="btn btn-primary"/>
     </form>
 </template>
@@ -31,9 +71,12 @@
         name: 'user-registration-form',
         data: () => {
             return {
+                image: '',
                 username: '',
                 password: '',
-                email: ''
+                email: '',
+                foreignLanguages: [],
+                nativeLanguages: []
             }
         },
         methods: {
@@ -43,7 +86,9 @@
                     {
                         username: this.username,
                         password: this.password,
-                        email: this.email
+                        email: this.email,
+                        learningLanguages: this.foreignLanguages,
+                        nativeLanguages: this.nativeLanguages
                     })
                     .then(result => {
                         console.log(result)
@@ -51,6 +96,33 @@
                     .catch(error => {
                         console.error(error)
                     })
+            },
+            submitFile() {
+                const jwt = this.$cookie.get('jwt');
+                const base = process.env.VUE_APP_API_ROOT_URL;
+
+                let formData = new FormData();
+                formData.append('image', this.image);
+                axios.post(`${base}/users/1234567890/profile/image/mashyfile`, formData, {
+                    headers: {
+                        'Authorization': jwt,
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }).then(function(){
+                    console.log('SUCCESS!!');
+                })
+                .catch(function(){
+                    console.log('FAILURE!!');
+                });
+            },
+            handleFileUpload(){
+                this.image = this.$refs.image.files[0];
+            },
+            handleAddForeignLanguage(lang){
+                this.foreignLanguages.push(lang);
+            },
+            handleAddNativeLanguage(lang){
+                this.nativeLanguages.push(lang);
             }
         }
     }

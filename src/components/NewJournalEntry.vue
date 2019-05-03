@@ -4,23 +4,20 @@
             <div>
                 <div class="input-group mb-3">
                     <select v-model="selectedForeignLanguage">
-                        <option disabled value="">Please select foreign language</option>
-                        <option>English</option>
-                        <option>Japanese</option>
-                        <option>Russian</option>
-                        <option>Chinese</option>
-                        <option>French</option>
-                        <option>German</option>
-                        <option>Spanish</option>
-                        <option>Italian</option>
+                        <option disabled value="">Please select <i>foreign</i> language</option>
+                        <option v-for="learning in foreignLanguagesSpoken" :value="learning">
+                            {{learning}}
+                        </option>
                     </select>
                 </div>
                 <div class="input-group mb-3">
                     <select v-model="selectedNativeLanguage">
-                        <option disabled value="">Please select native language</option>
-                        <option>English</option>
-                        <option>Italian</option>
+                        <option disabled value="">Please select <i>native</i> language</option>
+                        <option v-for="native in nativeLanguagesSpoken" :value="native">
+                            {{native}}
+                        </option>
                     </select>
+
                 </div>
             </div>
         </div>
@@ -70,6 +67,8 @@
                 title: '',
                 selectedForeignLanguage: '',
                 selectedNativeLanguage: '',
+                foreignLanguagesSpoken: [],
+                nativeLanguagesSpoken: [],
                 sentences: [],
                 currentForeignSentence: '',
                 currentNativeSentence: '',
@@ -79,7 +78,9 @@
             }
         },
         created: function() {
-            this.sentences = []
+            this.sentences = [];
+            this.foreignLanguagesSpoken = this.fetchLearningLanguagesForUser(1);
+            this.nativeLanguagesSpoken = this.fetchNativeLanguagesForUser(1);
         },
         methods: {
             submitJournalEntry: function() {
@@ -122,6 +123,28 @@
                         nativeText: this.currentNativeSentence
                     })
                 });
+            },
+            fetchLearningLanguagesForUser: function(userId) {
+                const jwt = this.$cookie.get('jwt');
+                const base = process.env.VUE_APP_API_ROOT_URL;
+
+                return axios.get(`${base}/users/${userId}/languages-spoken?type=learning`, { headers: { 'Authorization': jwt } })
+                    .then(result => {
+                        return this.foreignLanguagesSpoken = result.data;
+                    }, error => {
+                        console.error(error)
+                    })
+            },
+            fetchNativeLanguagesForUser: function(userId) {
+                const jwt = this.$cookie.get('jwt');
+                const base = process.env.VUE_APP_API_ROOT_URL;
+
+                return axios.get(`${base}/users/${userId}/languages-spoken?type=native`, { headers: { 'Authorization': jwt } })
+                    .then(result => {
+                        return this.nativeLanguagesSpoken = result.data;
+                    }, error => {
+                        console.error(error)
+                    })
             }
         }
     }

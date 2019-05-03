@@ -35,21 +35,13 @@
                 <div class="input-group mb-3">
                     <select v-on:change="handleAddForeignLanguage($event.target.value)">
                         <option disabled value="">Please select languages you are learning</option>
-                        <option>English</option>
-                        <option>Japanese</option>
-                        <option>Russian</option>
-                        <option>Chinese</option>
-                        <option>French</option>
-                        <option>German</option>
-                        <option>Spanish</option>
-                        <option>Italian</option>
+                        <option v-for="lang in availableLanguages" :value="lang">{{lang}}</option>
                     </select>
                 </div>
                 <div class="input-group mb-3">
                     <select v-on:change="handleAddNativeLanguage($event.target.value)">
                         <option disabled value="">Please select your native-level languages</option>
-                        <option>English</option>
-                        <option>Italian</option>
+                        <option v-for="lang in availableLanguages" :value="lang">{{lang}}</option>
                     </select>
                 </div>
 
@@ -76,8 +68,12 @@
                 password: '',
                 email: '',
                 foreignLanguages: [],
-                nativeLanguages: []
+                nativeLanguages: [],
+                availableLanguages: []
             }
+        },
+        created: function() {
+            this.fetchAvailableLanguages()
         },
         methods: {
             registerUser: function () {
@@ -123,7 +119,25 @@
             },
             handleAddNativeLanguage(lang){
                 this.nativeLanguages.push(lang);
-            }
+            },
+            fetchAvailableLanguages: function () {
+                const base = process.env.VUE_APP_API_ROOT_URL;
+                const jwt = this.$cookie.get('jwt');
+
+                axios.get(`${base}/languages`,{
+                    headers: {
+                        'Authorization': jwt,
+                            'Content-Type': 'multipart/form-data'
+                    }
+                })
+                .then(result => {
+                    console.log(result);
+                    this.availableLanguages = result.data
+                })
+                .catch(error => {
+                    console.error(error)
+                })
+            },
         }
     }
 </script>

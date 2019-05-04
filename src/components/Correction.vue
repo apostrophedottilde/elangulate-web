@@ -11,6 +11,7 @@
                     <div class="del" v-if="step.action=='REMOVE'">{{step.text}}</div>
                     <div class="no-change" v-if="step.action=='NO_CHANGE'">{{step.text}}</div>
                 </div>
+                <b-badge v-b-popover.hover="getFullCorrection(correction)"  variant="warning">Corrected sentence</b-badge>
             </div>
 
             <div>
@@ -50,6 +51,7 @@
         },
         data: function() {
             return {
+                popoverData: 'ddddddddddddddddddddddddddddddddddddd',
                 isReviewing: false,
                 commentInput: '',
                 starsInput: 0,

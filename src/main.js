@@ -8,12 +8,14 @@ import { faCoffee, faComment } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import Thumbnail from './components/ThumbnailImage'
 import BBadge from 'bootstrap-vue/es/components/badge/badge'
+import vBPopover from 'bootstrap-vue/es/directives/popover/popover'
 library.add(faCoffee);
-
 library.add(faComment);
-const VueCookie = require('vue-cookie');
 
+const VueCookie = require('vue-cookie');
 Vue.use(VueCookie);
+
+Vue.directive('b-popover', vBPopover)
 
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)

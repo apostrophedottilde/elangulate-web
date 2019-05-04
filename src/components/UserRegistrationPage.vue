@@ -45,11 +45,20 @@
                     </select>
                 </div>
 
-                Foreign languages learning:
-                {{foreignLanguages}}
-
-                Native spoken languages:
-                {{nativeLanguages}}
+                <div>
+                    <div class="aParent">
+                        Foreign languages learning:
+                        <span class="aParent" v-for="(lang, index) in foreignLanguages" v-bind:key="lang+index">
+                            <b-badge class="aParent" pill variant="info">{{lang}}</b-badge>
+                        </span>
+                    </div>
+                    <div class="aParent">
+                        Native spoken languages:
+                        <span v-for="(lang, index) in nativeLanguages" v-bind:key="lang+index">
+                            <b-badge class="aParent" pill variant="success">{{lang}}</b-badge>
+                        </span>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -144,4 +153,12 @@
 
 <style scoped>
 
+    .aParent div {
+        float: left;
+        clear: none;
+    }
+
+    .bParent div {
+        clear: none;
+    }
 </style>

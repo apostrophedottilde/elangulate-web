@@ -59,6 +59,8 @@
 
 <script>
     import axios from 'axios'
+    import jwt_decode from 'jwt-decode';
+
 
     export default {
         name: "new-journal-entry",
@@ -74,13 +76,17 @@
                 currentNativeSentence: '',
                 nativeParagraph: '',
                 splitSentences: [],
-                hasSplitParagraph: false
+                hasSplitParagraph: false,
+                userId: 0
             }
         },
         created: function() {
+            const jwt = this.$cookie.get('jwt');
+            let decoded = jwt_decode(jwt);
+            this.userId = decoded.sub;
             this.sentences = [];
-            this.foreignLanguagesSpoken = this.fetchLearningLanguagesForUser(1);
-            this.nativeLanguagesSpoken = this.fetchNativeLanguagesForUser(1);
+            this.foreignLanguagesSpoken = this.fetchLearningLanguagesForUser(this.userId);
+            this.nativeLanguagesSpoken = this.fetchNativeLanguagesForUser(this.userId);
         },
         methods: {
             submitJournalEntry: function() {

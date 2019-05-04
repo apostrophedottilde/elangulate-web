@@ -7,16 +7,17 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faCoffee, faComment } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import Thumbnail from './components/ThumbnailImage'
-
+import BBadge from 'bootstrap-vue/es/components/badge/badge'
 library.add(faCoffee);
+
 library.add(faComment);
-
 const VueCookie = require('vue-cookie');
-
 
 Vue.use(VueCookie);
 
+
 Vue.component('font-awesome-icon', FontAwesomeIcon)
+Vue.component('b-badge', BBadge)
 Vue.component('thumbnail-image', Thumbnail)
 
 

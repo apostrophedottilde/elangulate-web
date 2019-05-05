@@ -109,10 +109,7 @@
                 let formData = new FormData();
                 formData.append('image', this.image);
                 axios.post(`${base}/users/1234567890/profile/image/mashyfile`, formData, {
-                    headers: {
-                        'Authorization': jwt,
-                        'Content-Type': 'multipart/form-data'
-                    }
+                    headers: {}
                 }).then(function(){
                     console.log('SUCCESS!!');
                 })

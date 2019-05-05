@@ -1,18 +1,12 @@
 <template>
     <div class="aParent">
-        <a href="#"><img class="userThumbnail card-img-top float-left" v-bind:src="randomImage()" alt=""></a>
+        <a href="#"><img class="userThumbnail card-img-top float-left" src="https://bitcrunchyltd-elangulizer-storage-images.ams3.cdn.digitaloceanspaces.com/bucket_name/files/mashyfile.jpg" alt=""></a>
     </div>
 </template>
 
 <script>
     export default {
-        name: "ThumbnailImage",
-        methods: {
-            randomImage() {
-                const randnum = Math.floor(Math.random() * Math.floor(2));
-                return randnum == 0 ? "/girl1.jpg" : "/girl2.jpg"
-            }
-        }
+        name: "ThumbnailImage"
     }
 </script>
 

@@ -82,6 +82,7 @@
         },
         created: function() {
             const jwt = this.$cookie.get('jwt');
+            console.log(jwt);
             let decoded = jwt_decode(jwt);
             this.userId = decoded.sub;
             this.sentences = [];

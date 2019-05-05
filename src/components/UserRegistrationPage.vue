@@ -87,29 +87,18 @@
         methods: {
             registerUser: function () {
                 const base = process.env.VUE_APP_API_ROOT_URL;
-                axios.post(`${base}/users/sign-up`,
-                    {
-                        username: this.username,
-                        password: this.password,
-                        email: this.email,
-                        learningLanguages: this.foreignLanguages,
-                        nativeLanguages: this.nativeLanguages
-                    })
-                    .then(result => {
-                        console.log(result)
-                    })
-                    .catch(error => {
-                        console.error(error)
-                    })
-            },
-            submitFile() {
-                const jwt = this.$cookie.get('jwt');
-                const base = process.env.VUE_APP_API_ROOT_URL;
 
                 let formData = new FormData();
                 formData.append('image', this.image);
-                axios.post(`${base}/users/1234567890/profile/image/mashyfile`, formData, {
-                    headers: {}
+                formData.append('username', this.username);
+                formData.append('email', this.email);
+                formData.append('password', this.password);
+                formData.append('learningLanguages', this.foreignLanguages);
+                formData.append('nativeLanguages', this.nativeLanguages);
+
+
+                axios.post(`${base}/users/sign-up`, formData, {
+                    headers: {headers: {"Content-Type": "multipart/form-data"}}
                 }).then(function(){
                     console.log('SUCCESS!!');
                 })
@@ -143,7 +132,7 @@
                 .catch(error => {
                     console.error(error)
                 })
-            },
+            }
         }
     }
 </script>

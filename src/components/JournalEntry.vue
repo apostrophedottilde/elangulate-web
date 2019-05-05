@@ -1,23 +1,23 @@
 <template>
     <div class="container">
-        <thumbnail-image></thumbnail-image>
+        <thumbnail-image v-bind:url="creatorAvatar.profileImageUrl"></thumbnail-image>
         <div class="title-top">
             <div class="aParent">
-                <h3>{{entry.title}}</h3>
+                <h3>{{title}}</h3>
             </div>
         </div>
 
         <div>
             <div class="card">
-                <div class="lang-header">{{entry.foreignLanguage}}</div>
-                <div class="" v-for="sentence in entry.sentences" v-bind:key="sentence.id + '1'">
+                <div class="lang-header">{{foreignLanguage}}</div>
+                <div class="" v-for="sentence in sentences" v-bind:key="sentence.id + '1'">
                     <div class="card-text">{{sentence.foreignText}}</div>
                 </div>
 
                 <hr/>
 
-                <div class="lang-header">{{entry.nativeLanguage}}</div>
-                <div class="" v-for="sentence in entry.sentences" v-bind:key="sentence.id + '2'">
+                <div class="lang-header">{{nativeLanguage}}</div>
+                <div class="" v-for="sentence in sentences" v-bind:key="sentence.id + '2'">
                     <div class="card-text">{{sentence.nativeText}}</div>
                 </div>
             </div>
@@ -25,14 +25,14 @@
             <br/><br/>
             <div class="card correction-suggestions">
                 <h5>Suggest corrections</h5>
-                <div class="" v-for="(sentence, index) in entry.sentences" v-bind:key="sentence.id + '3'">
+                <div class="" v-for="(sentence, index) in sentences" v-bind:key="sentence.id + '3'">
                     <div class="card">
                         <div class="card-text">{{sentence.foreignText}}</div>
                         <div class="card-text greyed">{{sentence.nativeText}}</div>
                         <input type="text" v-model="currentCorrections[index]" class="form-control" value="Sentence correction"/>
                     </div>
                 </div>
-                <input type="button" class="btn btn-outline-dark" @click="submitCorrectionSet(currentCorrections, entry)" value="Suggest corrections"/>
+                <input type="button" class="btn btn-outline-dark" @click="submitCorrectionSet(currentCorrections, sentences)" value="Suggest corrections"/>
             </div>
         </div>
 
@@ -69,28 +69,38 @@
          data: function () {
             return {
                 id: '',
-                entry: {},
+                creator: 0,
+                title: '',
+                foreignLanguage: '',
+                nativeLanguage: '',
+                sentences: '',
+                creatorAvatar: {},
                 currentCorrections: [],
                 liveCorrectionSets: []
             }
         },
-        created() {
+        created: function() {
             this.id = this.$route.params.threadId;
             this.fetchJournalEntry(this.id);
             this.fetchCorrectionSets();
         },
          methods: {
-            fetchJournalEntry: function(id) {
+            fetchJournalEntry: async function(id) {
                 const jwt = this.$cookie.get('jwt');
                 const base = process.env.VUE_APP_API_ROOT_URL;
 
-                axios.get(`${base}/journal-entries/${id}`, {headers: {'Authorization': jwt}})
+                await axios.get(`${base}/journal-entries/${id}`, {headers: {'Authorization': jwt}})
                     .then(result => {
-                        this.entry = result.data;
-                        this.currentCorrections = new Array(this.entry.sentences.length);
-                    }, error => {
-                        console.error(error)
+                        this.id =  result.data.id;
+                        this.creator = result.data.creator;
+                        this.title = result.data.title;
+                        this.foreignLanguage =  result.data.foreignLanguage;
+                        this.nativeLanguage = result.data.nativeLanguage;
+                        this.sentences = result.data.sentences;
+                        this.currentCorrections = new Array(this.sentences.length);
+                        this.fetchAvatarForUser(this.creator);
                     })
+                    .catch(err => console.log(err))
             },
              fetchCorrectionSets: function() {
                  const jwt = this.$cookie.get('jwt');
@@ -120,11 +130,11 @@
                  });
                  return fullCorrection;
              },
-            submitCorrectionSet: function(corrections, entry) {
+            submitCorrectionSet: function(corrections, entrySentences) {
                 const jwt = this.$cookie.get('jwt');
                 const newCorrections = [];
 
-                entry.sentences.forEach((e, index)=> {
+                entrySentences.forEach((e, index)=> {
                     const text = !corrections[index] ? null : corrections[index];
                     newCorrections.push({
                         sentenceId: e.id,
@@ -145,7 +155,25 @@
                     }, error => {
                         console.error(error)
                     })
-            }
+            },
+             fetchAvatarForUser: function(userId) {
+                 const base = process.env.VUE_APP_API_ROOT_URL;
+                 const jwt = this.$cookie.get('jwt');
+
+                 return axios.get(`${base}/users/${userId}/profile/avatar`,{
+                     headers: {
+                         'Authorization': jwt,
+                         'Content-Type': 'multipart/form-data'
+                     }
+                 })
+                 .then(result => {
+                     console.log("AVATAR:" + JSON.stringify(result.data));
+                     this.creatorAvatar =  result.data;
+                 })
+                 .catch(error => {
+                     console.error(error)
+                 })
+             }
         },
     }
 </script>

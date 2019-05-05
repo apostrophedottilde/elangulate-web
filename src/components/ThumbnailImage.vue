@@ -1,12 +1,19 @@
 <template>
     <div class="aParent">
-        <a href="#"><img class="userThumbnail card-img-top float-left" src="https://bitcrunchyltd-elangulizer-storage-images.ams3.cdn.digitaloceanspaces.com/bucket_name/files/mashyfile.jpg" alt=""></a>
+        <a href="#"><img class="userThumbnail card-img-top float-left" v-bind:src="url" alt=""></a>
     </div>
 </template>
 
 <script>
     export default {
-        name: "ThumbnailImage"
+        name: "thumbnail-image",
+        props: {
+            url: ''
+
+        },
+        created: function() {
+            console.log("AVATAR IMAGE URL " + this.url.profileImageUrl)
+        }
     }
 </script>
 

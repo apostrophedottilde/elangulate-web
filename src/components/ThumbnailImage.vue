@@ -1,6 +1,6 @@
 <template>
     <div class="aParent">
-        <a href="#"><img class="userThumbnail card-img-top float-left" v-bind:src="url" alt=""></a>
+        <a href="#"><img class="userThumbnail card-img-top float-left" v-bind:src="fullUrl" alt=""></a>
     </div>
 </template>
 
@@ -13,6 +13,14 @@
         },
         created: function() {
             console.log("AVATAR IMAGE URL " + this.url.profileImageUrl)
+        },
+        computed: {
+            fullUrl: function() {
+                const base = process.env.VUE_APP_API_ROOT_URL;
+                const full = `${base}/images/${this.url}`;
+                console.log('|FULL URL' + full);
+                return full
+            }
         }
     }
 </script>

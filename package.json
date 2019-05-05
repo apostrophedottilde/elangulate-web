@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "https://elangulizer.co.uk/",
   "scripts": {
-    "serve": "vue-cli-service serve && mode=development ",
+    "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "deploy": "gh-pages -d dist",
     "lint": "vue-cli-service lint"

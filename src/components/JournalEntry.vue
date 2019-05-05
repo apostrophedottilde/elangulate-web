@@ -160,7 +160,7 @@
                  const base = process.env.VUE_APP_API_ROOT_URL;
                  const jwt = this.$cookie.get('jwt');
 
-                 return axios.get(`${base}/users/${userId}/profile/avatar`,{
+                 return axios.get(`${base}/users/${userId}/profile/avatar`, {
                      headers: {
                          'Authorization': jwt,
                          'Content-Type': 'multipart/form-data'

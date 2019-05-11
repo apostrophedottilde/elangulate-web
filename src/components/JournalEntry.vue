@@ -38,34 +38,18 @@
 
         <div class="card correction-sets-container">
             Correction sets
-            <div class="card correction-sets-list" v-for="correctionSet in liveCorrectionSets" v-bind:key="correctionSet.id">
-                <div class="correction-set">
-                    <div class="avatar">
-                        <div class="">
-                            <thumbnail-image></thumbnail-image>
-                        </div>
-                        <div class="">
-                            Corrector: Yamrmi Bobski
-                        </div>
-                    </div>
-
-                    <div class="" v-for="correction in correctionSet.corrections" v-bind:key="correction.id">
-                        {{correction.title}}
-                        <correction v-bind:correction="correction" v-bind:originalText="findSpecificSentence(correction.sentenceId)"></correction>
-                    </div>
-                </div>
-            </div>
+            <correction-sets v-bind:journalEntryId="id" v-bind:originalSentences="sentences"></correction-sets>
         </div>
-
     </div>
 </template>         
 
 <script>
     import axios from 'axios'
     import Correction from "./Correction";
+    import CorrectionSets from "./CorrectionSets";
      export default {
         name: "journal-entry",
-         components: {Correction},
+         components: {CorrectionSets, Correction},
          data: function () {
             return {
                 id: 0,
@@ -184,27 +168,9 @@
         background: #9dc0db;
     }
 
-    .avatar {
-        clear: initial;
-        margin-bottom: 2em;
-    }
-
-    .correction-sets-list {
-        margin-left: 1em;
-        margin-right: 1em;
-        margin-top: .8em;
-        background: #fff4f4;
-    }
-
     .correction-sets-container {
         margin-top: 2em;
         background: #ffe6e9;
-    }
-
-    .correction-set {
-        margin-left: 1em;
-        margin-right: 1em;
-        margin-top: 2em;
     }
 
     .aParent div {

@@ -11,14 +11,12 @@
 
         <div class="" v-for="correction in correctionSet.corrections" v-bind:key="correction.id">
             {{correction.title}}
-            AIDS
             <correction v-bind:correction="correction" v-bind:originalText="findSpecificSentence(correction.sentenceId)"></correction>
         </div>
     </div>
 </template>
 
 <script>
-    import axios from 'axios'
     import Correction from "./Correction";
     export default {
         name: "correction-set",
@@ -29,29 +27,8 @@
             }
         },
         props: {
-            correctionSet: {
-                id: Number,
-                creator: Number,
-                journalEntryId: Number,
-                corrections: [{
-                    id: Number,
-                    creator: Number,
-                    sentenceId: Number,
-                    correctionSteps: [{
-                        action: String,
-                        text: String,
-                    }]
-
-                }]
-            },
-            journalEntrySentences: [{
-                id: Number,
-                creator: String,
-                foreignText: String,
-                nativeText: String,
-                foreignLanguage: String,
-                nativeLanguage: String,
-            }],
+            correctionSet: [],
+            originalSentences: {},
         },
         beforeCreate: function()  {
             console.log("about to create correction set")
@@ -60,24 +37,13 @@
             console.log("created correction set")
         },
         methods: {
-            fetchAvatarForUser: function(userId) {
-                const base = process.env.VUE_APP_API_ROOT_URL;
-                const jwt = this.$cookie.get('jwt');
-
-                return axios.get(`${base}/users/${userId}/profile/avatar`, {
-                    headers: {
-                        'Authorization': jwt,
-                        'Content-Type': 'multipart/form-data'
-                    }
-                })
-                .then(result => {
-                    console.log("AVATAR:" + JSON.stringify(result.data));
-                    this.creatorAvatar =  result.data;
-                })
-                .catch(error => {
-                    console.error(error)
-                })
-            }
+            findSpecificSentence: function (sentenceId) {
+                const specificSentence = this.originalSentences.find(s => s.id === sentenceId);
+                if (specificSentence) {
+                    return specificSentence.foreignText;
+                }
+                return 'NOT FOUND'
+            },
         },
     }
 </script>

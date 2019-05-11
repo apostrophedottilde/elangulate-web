@@ -1,21 +1,7 @@
 <template>
     <div>
-        <div class="card correction-sets-list" v-for="correctionSet in liveCorrectionSets" v-bind:key="correctionSet.id">
-            <div class="correction-set">
-                <div class="avatar">
-                    <div class="">
-                        <thumbnail-image></thumbnail-image>
-                    </div>
-                    <div class="">
-                        Corrector: Yamrmi Bobski
-                    </div>
-                </div>
-
-                <div class="" v-for="correction in correctionSet.corrections" v-bind:key="correction.id">
-                    {{correction.title}}
-                    <correction v-bind:correction="correction" v-bind:originalText="findSpecificSentence(correction.sentenceId)"></correction>
-                </div>
-            </div>
+        <div class="card correction-sets-list" v-for="set in liveCorrectionSets" v-bind:key="set.id">
+            <correction-set v-bind:correctionSet="set" v-bind:originalSentences="originalSentences"></correction-set>
         </div>
     </div>
 </template>
@@ -23,9 +9,10 @@
 <script>
     import axios from 'axios'
     import Correction from "./Correction";
+    import CorrectionSet from "./CorrectionSet";
     export default {
         name: "correction-sets",
-        components: {Correction},
+        components: {CorrectionSet, Correction},
         props: {
             journalEntryId: Number,
             liveCorrectionSets: [],

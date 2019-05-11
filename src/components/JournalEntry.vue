@@ -8,6 +8,7 @@
         </div>
 
         <div>
+<!--            Languages Selection-->
             <div class="card">
                 <div class="lang-header">{{foreignLanguage}}</div>
                 <div class="" v-for="sentence in sentences" v-bind:key="sentence.id + '1'">
@@ -21,8 +22,11 @@
                     <div class="card-text">{{sentence.nativeText}}</div>
                 </div>
             </div>
+<!--            Languages Selection-->
 
             <br/><br/>
+
+<!--            NEW CORRECTION SUGGESTIONS-->
             <div class="card correction-suggestions">
                 <h5>Suggest corrections</h5>
                 <div class="" v-for="(sentence, index) in sentences" v-bind:key="sentence.id + '3'">
@@ -35,6 +39,7 @@
                 <input type="button" class="btn btn-outline-dark" @click="submitCorrectionSet(currentCorrections, sentences)" value="Suggest corrections"/>
             </div>
         </div>
+<!--            NEW CORRECTION SUGGESTIONS-->
 
         <div class="card correction-sets-container">
             Correction sets
@@ -114,7 +119,7 @@
                 axios.post(`${base}/correction-sets`, postData, {headers: {'Authorization': jwt}})
                     .then(result => {
                         console.log('saved correction set' + result)
-                        this.liveCorrectionSets.push(result.data)
+                        this.currentCorrections.push(result.data)
                     }, error => {
                         console.error(error)
                     })

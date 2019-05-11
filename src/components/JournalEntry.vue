@@ -58,7 +58,7 @@
         </div>
 
     </div>
-</template>
+</template>         
 
 <script>
     import axios from 'axios'
@@ -68,12 +68,12 @@
          components: {Correction},
          data: function () {
             return {
-                id: '',
+                id: 0,
                 creator: 0,
                 title: '',
                 foreignLanguage: '',
                 nativeLanguage: '',
-                sentences: '',
+                sentences: [],
                 creatorAvatar: {},
                 currentCorrections: [],
                 liveCorrectionSets: []

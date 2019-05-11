@@ -9,16 +9,13 @@
         name: "thumbnail-image",
         props: {
             url: ''
-
         },
         created: function() {
-            console.log("AVATAR IMAGE URL " + this.url.profileImageUrl)
         },
         computed: {
             fullUrl: function() {
                 const base = process.env.VUE_APP_API_ROOT_URL;
                 const full = `${base}/images/${this.url}`;
-                console.log('|FULL URL' + full);
                 return full
             }
         }

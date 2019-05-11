@@ -114,9 +114,9 @@
                      })
              },
             findSpecificSentence: function(sentenceId) {
-                const specificSentence = this.entry.sentences.find(s => s.id === sentenceId);
+                const specificSentence = this.sentences.find(s => s.id === sentenceId);
                 if(specificSentence) {
-                    console.log(this.entry.sentences);
+                    console.log(this.sentences);
                     return specificSentence.foreignText;
                 }
                 return 'NOT FOUND'
@@ -143,7 +143,7 @@
                 });
 
                 const postData = {
-                    journalEntryId: entry.id,
+                    journalEntryId: this.id,
                     corrections: newCorrections
                 };
                 const base = process.env.VUE_APP_API_ROOT_URL;

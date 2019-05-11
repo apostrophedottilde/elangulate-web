@@ -60,13 +60,6 @@
             console.log("created correction set")
         },
         methods: {
-            // findSpecificSentence: function(sentenceId) {
-            //     const specificSentence = this.sentences.find(s => s.id === sentenceId);
-            //     if(specificSentence) {
-            //         return specificSentence.foreignText;
-            //     }
-            //     return 'NOT FOUND'
-            // },
             fetchAvatarForUser: function(userId) {
                 const base = process.env.VUE_APP_API_ROOT_URL;
                 const jwt = this.$cookie.get('jwt');
@@ -77,13 +70,13 @@
                         'Content-Type': 'multipart/form-data'
                     }
                 })
-                    .then(result => {
-                        console.log("AVATAR:" + JSON.stringify(result.data));
-                        this.creatorAvatar =  result.data;
-                    })
-                    .catch(error => {
-                        console.error(error)
-                    })
+                .then(result => {
+                    console.log("AVATAR:" + JSON.stringify(result.data));
+                    this.creatorAvatar =  result.data;
+                })
+                .catch(error => {
+                    console.error(error)
+                })
             }
         },
     }

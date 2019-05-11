@@ -29,7 +29,7 @@
         props: {
             journalEntryId: Number,
             liveCorrectionSets: [],
-            originalSentences: []
+            originalSentences: {}
         },
         created: function() {
             this.fetchCorrectionSets();

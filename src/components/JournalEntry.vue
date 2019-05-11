@@ -59,14 +59,12 @@
                 nativeLanguage: '',
                 sentences: [],
                 creatorAvatar: {},
-                currentCorrections: [],
-                liveCorrectionSets: []
+                currentCorrections: []
             }
         },
         created: function() {
             this.id = this.$route.params.threadId;
             this.fetchJournalEntry(this.id);
-            this.fetchCorrectionSets();
         },
          methods: {
             fetchJournalEntry: async function(id) {
@@ -85,25 +83,6 @@
                         this.fetchAvatarForUser(this.creator);
                     })
                     .catch(err => console.log(err))
-            },
-             fetchCorrectionSets: function() {
-                 const jwt = this.$cookie.get('jwt');
-                 const base = process.env.VUE_APP_API_ROOT_URL;
-
-                 axios.get(`${base}/correction-sets?journalEntryId=${this.id}&page=0&size=20`, {headers: {'Authorization': jwt}})
-                     .then(result => {
-                         this.liveCorrectionSets = result.data;
-                     }, error => {
-                         console.error(error)
-                     })
-             },
-            findSpecificSentence: function(sentenceId) {
-                const specificSentence = this.sentences.find(s => s.id === sentenceId);
-                if(specificSentence) {
-                    console.log(this.sentences);
-                    return specificSentence.foreignText;
-                }
-                return 'NOT FOUND'
             },
              getFullCorrection: function(correction) {
                  let fullCorrection = '';

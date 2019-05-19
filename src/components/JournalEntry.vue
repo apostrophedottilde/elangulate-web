@@ -6,9 +6,7 @@
                 <h3>{{title}}</h3>
             </div>
         </div>
-
         <div>
-<!--            Languages Selection-->
             <div class="card">
                 <div class="lang-header">{{foreignLanguage}}</div>
                 <div class="" v-for="sentence in sentences" v-bind:key="sentence.id + '1'">
@@ -22,28 +20,15 @@
                     <div class="card-text">{{sentence.nativeText}}</div>
                 </div>
             </div>
-<!--            Languages Selection-->
 
             <br/><br/>
 
-<!--            NEW CORRECTION SUGGESTIONS-->
-            <div class="card correction-suggestions">
-                <h5>Suggest corrections</h5>
-                <div class="" v-for="(sentence, index) in sentences" v-bind:key="sentence.id + '3'">
-                    <div class="card">
-                        <div class="card-text">{{sentence.foreignText}}</div>
-                        <div class="card-text greyed">{{sentence.nativeText}}</div>
-                        <input type="text" v-model="currentCorrections[index]" class="form-control" value="Sentence correction"/>
-                    </div>
-                </div>
-                <input type="button" class="btn btn-outline-dark" @click="submitCorrectionSet(currentCorrections, sentences)" value="Suggest corrections"/>
-            </div>
-        </div>
-<!--            NEW CORRECTION SUGGESTIONS-->
+            <suggested-corrections v-bind:journalEntryId="id" v-bind:sentences="sentences"></suggested-corrections>
 
-        <div class="card correction-sets-container">
-            Correction sets
-            <correction-sets v-bind:journalEntryId="id" v-bind:originalSentences="sentences"></correction-sets>
+            <div class="card correction-sets-container">
+                Correction sets
+                <correction-sets v-bind:journalEntryId="id" v-bind:originalSentences="sentences"></correction-sets>
+            </div>
         </div>
     </div>
 </template>         
@@ -52,9 +37,11 @@
     import axios from 'axios'
     import Correction from "./Correction";
     import CorrectionSets from "./CorrectionSets";
-     export default {
+    import SuggestedCorrections from "./SuggestedCorrections";
+
+    export default {
         name: "journal-entry",
-         components: {CorrectionSets, Correction},
+         components: {CorrectionSets, Correction, SuggestedCorrections},
          data: function () {
             return {
                 id: 0,
@@ -64,7 +51,6 @@
                 nativeLanguage: '',
                 sentences: [],
                 creatorAvatar: {},
-                currentCorrections: []
             }
         },
         created: function() {
@@ -84,7 +70,6 @@
                         this.foreignLanguage =  result.data.foreignLanguage;
                         this.nativeLanguage = result.data.nativeLanguage;
                         this.sentences = result.data.sentences;
-                        this.currentCorrections = new Array(this.sentences.length);
                         this.fetchAvatarForUser(this.creator);
                     })
                     .catch(err => console.log(err))

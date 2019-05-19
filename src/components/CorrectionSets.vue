@@ -8,11 +8,10 @@
 
 <script>
     import axios from 'axios'
-    import Correction from "./Correction";
     import CorrectionSet from "./CorrectionSet";
     export default {
         name: "correction-sets",
-        components: {CorrectionSet, Correction},
+        components: {CorrectionSet},
         props: {
             journalEntryId: Number,
             liveCorrectionSets: [],

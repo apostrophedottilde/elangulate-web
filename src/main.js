@@ -9,6 +9,10 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import Thumbnail from './components/ThumbnailImage'
 import BBadge from 'bootstrap-vue/es/components/badge/badge'
 import vBPopover from 'bootstrap-vue/es/directives/popover/popover'
+
+import BMedia from 'bootstrap-vue/es/components/media/media'
+import BImg from 'bootstrap-vue/es/components/image/img'
+
 library.add(faCoffee);
 library.add(faComment);
 
@@ -21,6 +25,9 @@ Vue.directive('b-popover', vBPopover)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.component('b-badge', BBadge)
 Vue.component('thumbnail-image', Thumbnail)
+Vue.component('b-media', BMedia)
+Vue.component('b-img', BImg)
+
 
 
 

@@ -51,7 +51,7 @@
             <input v-model="nativeParagraph" type="text" class="form-control" placeholder="Foreign paragraph"/>
         </div>
 
-        <input v-bind:disabled="hasSplitParagraph" v-on:click="fetchParagraphSplitIntoSentences()" type="button" value="Split paragraph into sentences" class="btn btn-primary"/>
+        <input v-bind:disabled="!canSplitParagraph" v-on:click="fetchParagraphSplitIntoSentences()" type="button" value="Split paragraph into sentences" class="btn btn-primary"/>
         <input v-bind:disabled="!hasSplitParagraph" v-on:click="submitJournalEntry()" type="button" value="Submit Journal Entry" class="btn btn-success"/>
     </form>
 </template>
@@ -86,6 +86,11 @@
             this.sentences = [];
             this.foreignLanguagesSpoken = this.fetchLearningLanguagesForUser(this.userId);
             this.nativeLanguagesSpoken = this.fetchNativeLanguagesForUser(this.userId);
+        },
+        computed: {
+            canSplitParagraph: function() {
+                return this.selectedNativeLanguage !== '' && this.selectedForeignLanguage !== '' && !this.hasSplitParagraph
+            }
         },
         methods: {
             submitJournalEntry: function() {

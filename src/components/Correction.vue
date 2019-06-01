@@ -5,13 +5,13 @@
                 {{originalText}}
             </div>
 
-            <div class="">
+            <div>
                 <div class="aParent" v-for="step in correction.correctionSteps" v-bind:key="step.id">
                     <div class="ins" v-if="step.action=='ADD'">{{step.text}}</div>
                     <div class="del" v-if="step.action=='REMOVE'">{{step.text}}</div>
                     <div class="no-change" v-if="step.action=='NO_CHANGE'">{{step.text}}</div>
                 </div>
-                <b-badge v-b-popover.hover="getFullCorrection(correction)"  variant="warning">Corrected sentence</b-badge>
+                <b-badge v-b-popover.hover="getFullCorrection(correction)"  variant="info">Corrected sentence</b-badge>
             </div>
 
             <div>
@@ -22,11 +22,11 @@
                 <div v-if="isReviewing" class="card">
                     <div class="input-group">
                         <input type="text" class="form-control" v-model="commentInput" value="Comment on review"/>
-                        <input type="button" class="form-control btn btn-outline-danger" @click="sumbitReview()" value="Review corrections"/>
+                        <input type="button" class="form-control btn btn-outline-danger" @click="sumbitReview()" value="Submit feedback"/>
                     </div>
                 </div>
                 <div v-else>
-                    <a @click="addReview()">Review this correction</a>
+                    <a @click="addReview()">Correction feedback</a>
                 </div>
             </div>
 
@@ -51,7 +51,7 @@
         },
         data: function() {
             return {
-                popoverData: 'ddddddddddddddddddddddddddddddddddddd',
+                popoverData: '',
                 isReviewing: false,
                 commentInput: '',
                 starsInput: 0,

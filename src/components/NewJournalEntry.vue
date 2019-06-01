@@ -17,7 +17,6 @@
                             {{native}}
                         </option>
                     </select>
-
                 </div>
             </div>
         </div>
@@ -52,8 +51,8 @@
             <input v-model="nativeParagraph" type="text" class="form-control" placeholder="Foreign paragraph"/>
         </div>
 
-        <input v-on:click="fetchParagraphSplitIntoSentences()" type="button" value="Split paragraph into sentences" class="btn btn-primary"/>
-        <input v-on:click="submitJournalEntry()" type="button" value="Submit Thread" class="btn btn-success"/>
+        <input v-bind:disabled="hasSplitParagraph" v-on:click="fetchParagraphSplitIntoSentences()" type="button" value="Split paragraph into sentences" class="btn btn-primary"/>
+        <input v-bind:disabled="!hasSplitParagraph" v-on:click="submitJournalEntry()" type="button" value="Submit Journal Entry" class="btn btn-success"/>
     </form>
 </template>
 

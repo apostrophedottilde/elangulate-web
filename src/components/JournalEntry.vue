@@ -21,15 +21,9 @@
                 </div>
             </div>
 
-            <br/><br/>
-
-            <new-correction-set-suggestion v-on:added-suggested-corrections-set="addCorrectionSet" v-bind:journalEntryId="id" v-bind:sentences="sentences"></new-correction-set-suggestion>
-
-            <div class="card correction-sets-container">
-                Correction sets
-                <correction-sets v-bind:journalEntryId="id" v-bind:originalSentences="sentences"></correction-sets>
-            </div>
-        </div>
+            <br/>
+            <correction-sets v-bind:journalEntryId="id" v-bind:originalSentences="sentences"></correction-sets>
+           </div>
     </div>
 </template>         
 
@@ -73,8 +67,9 @@
                         this.foreignLanguage =  result.data.foreignLanguage;
                         this.nativeLanguage = result.data.nativeLanguage;
                         this.sentences = result.data.sentences;
-                        this.fetchAvatarForUser(this.creator);
+                        return this.creator
                     })
+                    .then(this.fetchAvatarForUser)
                     .catch(err => console.log(err))
             },
              getFullCorrection: function(correction) {
@@ -86,31 +81,6 @@
                  });
                  return fullCorrection;
              },
-            submitCorrectionSet: function(corrections, entrySentences) {
-                const jwt = this.$cookie.get('jwt');
-                const newCorrections = [];
-
-                entrySentences.forEach((e, index)=> {
-                    const text = !corrections[index] ? null : corrections[index];
-                    newCorrections.push({
-                        sentenceId: e.id,
-                        correctionText: text
-                    });
-                });
-
-                const postData = {
-                    journalEntryId: this.id,
-                    corrections: newCorrections
-                };
-                const base = process.env.VUE_APP_API_ROOT_URL;
-
-                axios.post(`${base}/correction-sets`, postData, {headers: {'Authorization': jwt}})
-                    .then(result => {
-                        this.currentCorrections.push(result.data)
-                    }, error => {
-                        console.error(error)
-                    })
-            },
              fetchAvatarForUser: function(userId) {
                  const base = process.env.VUE_APP_API_ROOT_URL;
                  const jwt = this.$cookie.get('jwt');
@@ -134,10 +104,6 @@
 
 <style scoped>
 
-    .correction-suggestions {
-        background: #9dc0db;
-    }
-
     .correction-sets-container {
         margin-top: 2em;
         background: #ffe6e9;
@@ -150,11 +116,6 @@
 
     .bParent div {
         clear: none;
-    }
-
-    .greyed {
-        color: #9c9c9c;
-        font-style: italic;
     }
 
     .title-top {

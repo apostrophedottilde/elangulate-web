@@ -26,7 +26,6 @@
                 <label>File
                     <input type="file" id="profileImage" ref="image" v-on:change="handleFileUpload()"/>
                 </label>
-                <button v-on:click="submitFile()">Submit</button>
             </div>
         </div>
 

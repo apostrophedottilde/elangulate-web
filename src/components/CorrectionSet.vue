@@ -2,10 +2,7 @@
     <div class="correction-set">
         <div class="avatar">
             <div class="">
-                <thumbnail-image></thumbnail-image>
-            </div>
-            <div class="">
-                Corrector: Yamrmi Bobski
+                <thumbnail-image v-bind:url="creatorAvatar.profileImageUrl"></thumbnail-image>
             </div>
         </div>
 
@@ -17,6 +14,7 @@
 </template>
 
 <script>
+    import axios from 'axios'
     import Correction from "./Correction";
     export default {
         name: "correction-set",
@@ -34,7 +32,7 @@
 
         },
         created: function()  {
-
+            this.fetchAvatarForUser(this.correctionSet.creator)
         },
         methods: {
             findSpecificSentence: function (sentenceId) {
@@ -44,6 +42,23 @@
                 }
                 return 'NOT FOUND'
             },
+            fetchAvatarForUser: function(userId) {
+                const base = process.env.VUE_APP_API_ROOT_URL;
+                const jwt = this.$cookie.get('jwt');
+
+                return axios.get(`${base}/users/${userId}/profile/avatar`, {
+                    headers: {
+                        'Authorization': jwt,
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+                .then(result => {
+                    this.creatorAvatar = result.data;
+                })
+                .catch(error => {
+                    console.error(error)
+                })
+            }
         },
     }
 </script>

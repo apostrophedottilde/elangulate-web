@@ -27,14 +27,14 @@
             }
         },
         props: {
-            correctionSet: [],
-            originalSentences: {},
+            correctionSet: Object,
+            originalSentences: Array,
         },
         beforeCreate: function()  {
-            console.log("about to create correction set")
+
         },
         created: function()  {
-            console.log("created correction set")
+
         },
         methods: {
             findSpecificSentence: function (sentenceId) {

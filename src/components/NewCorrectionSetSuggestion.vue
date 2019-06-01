@@ -2,7 +2,7 @@
     <div class="card correction-suggestions">
         <h5>Suggest corrections</h5>
         <div class="" v-for="(sentence, index) in sentences" v-bind:key="sentence.id + '3'">
-            <div class="card">
+            <div class="card" v-on:added-suggested-corrections-set="addCorrectionSet">
                 <div class="card-text">{{sentence.foreignText}}</div>
                 <div class="card-text greyed">{{sentence.nativeText}}</div>
                 <input type="text" v-model="currentCorrections[index]" class="form-control" value="Sentence correction"/>
@@ -16,7 +16,7 @@
     import axios from 'axios'
 
     export default {
-        name: "SuggestedCorrections",
+        name: "new-correction-set-suggestion",
         data: function () {
             return {
                 currentCorrections: []
@@ -24,12 +24,18 @@
         },
         props: {
             journalEntryId: Number,
-            sentences: []
+            sentences: Array
         },
         created: function() {
             this.currentCorrections = new Array(this.sentences.length);
         },
+        computed: {
+
+        },
         methods: {
+            addCorrectionSet: function() {
+                console.log('Added a correction set and received event in JournalEntry.vue')
+            },
             submitCorrectionSet: function(corrections, entrySentences) {
                 const jwt = this.$cookie.get('jwt');
                 const newCorrections = [];
@@ -50,7 +56,8 @@
 
                 axios.post(`${base}/correction-sets`, postData, {headers: {'Authorization': jwt}})
                     .then(result => {
-                        this.currentCorrections.push(result.data)
+                        // this.currentCorrections.push(result.data)
+                        this.$emit('added-suggested-corrections-set', result.data);
                     }, error => {
                         console.error(error)
                     })

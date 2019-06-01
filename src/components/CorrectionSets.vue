@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-on:added-suggested-corrections-set="addCorrectionSet">
         <div class="card correction-sets-list" v-for="set in liveCorrectionSets" v-bind:key="set.id">
             <correction-set v-bind:correctionSet="set" v-bind:originalSentences="originalSentences"></correction-set>
         </div>
@@ -39,27 +39,21 @@
                 }
                 return 'NOT FOUND'
             },
+            addCorrectionSet: function() {
+                console.log('Added a correction set and received event in correction sets')
+                alert('Added a correction set and received event in correction sets')
+
+            }
         }
     }
 </script>
 
 <style scoped>
-    .avatar {
-        clear: initial;
-        margin-bottom: 2em;
-    }
-
     .correction-sets-list {
         margin-left: 1em;
         margin-right: 1em;
         margin-top: .8em;
         background: #fff4f4;
-    }
-
-    .correction-set {
-        margin-left: 1em;
-        margin-right: 1em;
-        margin-top: 2em;
     }
 
     .aParent div {

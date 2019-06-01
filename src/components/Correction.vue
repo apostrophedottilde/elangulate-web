@@ -26,7 +26,7 @@
                     </div>
                 </div>
                 <div v-else>
-                    <a><href @click="addReview()">Review this correction</href></a>
+                    <a @click="addReview()">Review this correction</a>
                 </div>
             </div>
 
@@ -60,7 +60,6 @@
             }
         },
         created: function() {
-            console.log(this.correction);
             this.fetchCorrectionReviews();
         },
         methods: {
@@ -80,7 +79,6 @@
                 axios.get(`${base}/correction-reviews?correctionId=${this.correction.id}`, {headers: {'Authorization': jwt}})
                     .then(result => {
                         this.reviews = result.data;
-                        console.log("Reviews: " + JSON.stringify(this.reviews))
                     }, error => {
                         console.error(error)
                     })
@@ -96,7 +94,6 @@
                     }, {headers: {'Authorization': jwt}})
                     .then(result => {
                         this.reviews.push(result.data);
-                        console.log("New Review: " + JSON.stringify(result.data))
                         this.isReviewing = false;
                     }, error => {
                         console.error(error)

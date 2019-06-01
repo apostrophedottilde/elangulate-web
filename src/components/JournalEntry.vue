@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container" >
         <thumbnail-image v-bind:url="creatorAvatar.profileImageUrl"></thumbnail-image>
         <div class="title-top">
             <div class="aParent">
@@ -23,7 +23,7 @@
 
             <br/><br/>
 
-            <suggested-corrections v-bind:journalEntryId="id" v-bind:sentences="sentences"></suggested-corrections>
+            <new-correction-set-suggestion v-on:added-suggested-corrections-set="addCorrectionSet" v-bind:journalEntryId="id" v-bind:sentences="sentences"></new-correction-set-suggestion>
 
             <div class="card correction-sets-container">
                 Correction sets
@@ -37,11 +37,11 @@
     import axios from 'axios'
     import Correction from "./Correction";
     import CorrectionSets from "./CorrectionSets";
-    import SuggestedCorrections from "./SuggestedCorrections";
+    import NewCorrectionSetSuggestion from "./NewCorrectionSetSuggestion";
 
     export default {
         name: "journal-entry",
-         components: {CorrectionSets, Correction, SuggestedCorrections},
+         components: {CorrectionSets, Correction, NewCorrectionSetSuggestion},
          data: function () {
             return {
                 id: 0,
@@ -58,6 +58,9 @@
             this.fetchJournalEntry(this.id);
         },
          methods: {
+             addCorrectionSet: function(correctionSet) {
+                 console.log('Added a correction set and received event in JournalEntry.vue ' + JSON.stringify(correctionSet))
+             },
             fetchJournalEntry: async function(id) {
                 const jwt = this.$cookie.get('jwt');
                 const base = process.env.VUE_APP_API_ROOT_URL;
@@ -103,7 +106,6 @@
 
                 axios.post(`${base}/correction-sets`, postData, {headers: {'Authorization': jwt}})
                     .then(result => {
-                        console.log('saved correction set' + result)
                         this.currentCorrections.push(result.data)
                     }, error => {
                         console.error(error)
@@ -120,7 +122,6 @@
                      }
                  })
                  .then(result => {
-                     console.log("AVATAR:" + JSON.stringify(result.data));
                      this.creatorAvatar =  result.data;
                  })
                  .catch(error => {

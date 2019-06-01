@@ -100,10 +100,10 @@
                 axios.post(`${base}/users/sign-up`, formData, {
                     headers: {headers: {"Content-Type": "multipart/form-data"}}
                 }).then(function(){
-                    console.log('SUCCESS!!');
+
                 })
                 .catch(function(){
-                    console.log('FAILURE!!');
+
                 });
             },
             handleFileUpload(){
@@ -126,7 +126,6 @@
                     }
                 })
                 .then(result => {
-                    console.log(result);
                     this.availableLanguages = result.data
                 })
                 .catch(error => {

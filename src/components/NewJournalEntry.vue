@@ -32,7 +32,7 @@
         <div v-for="(sentence, index) in sentences" v-bind:key="index">
             <div class="input-group mb-3">
                 <div class="language-selection input-group-prepend">
-                    <span class="input-group-text">Foreign text</span>
+                    <span class="input-group-text"># {{index}}</span>
                 </div>
                 <input v-model="sentence.foreignText" type="text" class="native-sentence form-control"/>
             </div>
@@ -82,7 +82,6 @@
         },
         created: function() {
             const jwt = this.$cookie.get('jwt');
-            console.log(jwt);
             let decoded = jwt_decode(jwt);
             this.userId = decoded.sub;
             this.sentences = [];

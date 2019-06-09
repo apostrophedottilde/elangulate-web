@@ -1,15 +1,26 @@
 <template>
     <div class="correction-set">
-        <div class="avatar">
-            <div class="">
-                <thumbnail-image v-bind:url="creatorAvatar.profileImageUrl"></thumbnail-image>
-            </div>
-        </div>
 
-        <div class="" v-for="correction in correctionSet.corrections" v-bind:key="correction.id">
-            {{correction.title}}
-            <correction v-bind:correction="correction" v-bind:originalText="findSpecificSentence(correction.sentenceId)"></correction>
-        </div>
+        <b-card no-body class="mb-1">
+            <b-card-header header-tag="header" class="p-1" role="tab">
+                <b-button block href="#" v-b-toggle="'correction-set-' + correctionSet.id" variant="info">
+                    <div class="avatar">
+                        <div class="">
+                            <thumbnail-image v-bind:url="creatorAvatar.profileImageUrl"></thumbnail-image>
+                        </div>
+                        Correction Set #{{correctionSet.id}}
+                    </div>
+                </b-button>
+            </b-card-header>
+            <b-collapse v-bind:id="'correction-set-' + correctionSet.id" visible role="tabpanel">
+                <b-card-body>
+                    <div class="" v-for="correction in correctionSet.corrections" v-bind:key="correction.id">
+                        {{correction.title}}
+                        <correction v-bind:correction="correction" v-bind:originalText="findSpecificSentence(correction.sentenceId)"></correction>
+                    </div>
+                </b-card-body>
+            </b-collapse>
+        </b-card>
     </div>
 </template>
 

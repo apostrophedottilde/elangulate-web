@@ -2,13 +2,13 @@
   <div id="app">
     <header-navbar></header-navbar>
     <div class="row">
-      <div class="col-2">
+      <div class="col-lg-4 col-sm-0">
 
       </div>
-      <div class="col-8">
+      <div class="col-lg-8 col-sm-12">
         <router-view/>
       </div>
-      <div class="col-2">
+      <div class="col-lg-4 col-sm-0">
 
       </div>
     </div>

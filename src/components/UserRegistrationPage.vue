@@ -88,6 +88,7 @@
                 const base = process.env.VUE_APP_API_ROOT_URL;
 
                 let formData = new FormData();
+                console.log('upload image name:: ' + JSON.stringify(this.image));
                 formData.append('image', this.image);
                 formData.append('username', this.username);
                 formData.append('email', this.email);
@@ -101,8 +102,8 @@
                 }).then(function(){
 
                 })
-                .catch(function(){
-
+                .catch(err => {
+                    console.error(err)
                 });
             },
             handleFileUpload(){

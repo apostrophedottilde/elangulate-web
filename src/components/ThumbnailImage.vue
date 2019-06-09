@@ -1,7 +1,5 @@
 <template>
-    <div class="aParent">
-        <a href="#"><img class="userThumbnail card-img-top float-left" v-bind:src="fullUrl" alt=""></a>
-    </div>
+    <a href="#"><img class="userThumbnail card-img-top float-left" v-bind:src="fullUrl" alt=""></a>
 </template>
 
 <script>

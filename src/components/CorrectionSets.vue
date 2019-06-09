@@ -11,9 +11,9 @@
             </div>
             <input type="button" class="btn btn-outline-dark" @click="submitCorrectionSet(currentCorrections, originalSentences)" value="Suggest corrections"/>
         </div>
-
-        Correction sets
-        <div class="card correction-sets-list" v-for="set in liveCorrectionSets" v-bind:key="set.id">
+        
+        <label for="correction-sets-list">Correction Sets</label>
+        <div id="correction-sets-list" class="" v-for="set in liveCorrectionSets" v-bind:key="set.id">
             <correction-set v-bind:correctionSet="set" v-bind:originalSentences="originalSentences"></correction-set>
         </div>
     </div>
@@ -92,15 +92,9 @@
 </script>
 
 <style scoped>
-    .correction-sets-list {
-        margin-left: 1em;
-        margin-right: 1em;
-        margin-top: .8em;
-        background: #fff4f4;
-    }
 
     .correction-suggestions {
-        background: #9dc0db;
+        background: #e2d9df;
     }
 
     .greyed {

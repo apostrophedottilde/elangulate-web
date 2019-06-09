@@ -61,6 +61,7 @@
 
                 await axios.get(`${base}/journal-entries/${id}`, {headers: {'Authorization': jwt}})
                     .then(result => {
+                        console.log("creator of journal entry: " + result.data.creator)
                         this.id =  result.data.id;
                         this.creator = result.data.creator;
                         this.title = result.data.title;
@@ -103,12 +104,6 @@
 </script>
 
 <style scoped>
-
-    .correction-sets-container {
-        margin-top: 2em;
-        background: #ffe6e9;
-    }
-
     .aParent div {
         float: left;
         clear: none;
@@ -125,6 +120,4 @@
     .lang-header {
         text-decoration: underline;
     }
-
-
 </style>

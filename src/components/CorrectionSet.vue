@@ -1,27 +1,35 @@
 <template>
-    <div class="correction-set">
+    <b-card no-body class="mb-1">
+        <b-card-header header-tag="header" class="p-1" role="tab">
+            <b-btn block href="#" v-b-toggle="correctionSetAccordianId" variant="dark">
+                <div class="avatar aParent">
+                    <div class="aParent">
+                        <thumbnail-image v-bind:url="creatorAvatar.profileImageUrl"></thumbnail-image>
+                    </div>
+                    <div  class="aParent">
+                        {{creatorAvatar.username}}
+                    </div>
+                </div>
+<!--                <div class="aParent">-->
+                    <span class="when-opened">
+                        <font-awesome-icon icon="chevron-down"/>
+                    </span>
+                    <span class="when-closed">
+                        <font-awesome-icon icon="chevron-up"/>
+                    </span>
+<!--                </div>-->
 
-        <b-card no-body class="mb-1">
-            <b-card-header header-tag="header" class="p-1" role="tab">
-                <b-button block href="#" v-b-toggle="'correction-set-' + correctionSet.id" variant="info">
-                    <div class="avatar">
-                        <div class="">
-                            <thumbnail-image v-bind:url="creatorAvatar.profileImageUrl"></thumbnail-image>
-                        </div>
-                        Correction Set #{{correctionSet.id}}
-                    </div>
-                </b-button>
-            </b-card-header>
-            <b-collapse v-bind:id="'correction-set-' + correctionSet.id" visible role="tabpanel">
-                <b-card-body>
-                    <div class="" v-for="correction in correctionSet.corrections" v-bind:key="correction.id">
-                        {{correction.title}}
-                        <correction v-bind:correction="correction" v-bind:originalText="findSpecificSentence(correction.sentenceId)"></correction>
-                    </div>
-                </b-card-body>
-            </b-collapse>
-        </b-card>
-    </div>
+            </b-btn>
+        </b-card-header>
+        <b-collapse v-bind:id="correctionSetAccordianId" visible role="tabpanel">
+            <b-card-body>
+                <div class="" v-for="correction in correctionSet.corrections" v-bind:key="correction.id">
+                    {{correction.title}}
+                    <correction v-bind:correction="correction" v-bind:originalText="findSpecificSentence(correction.sentenceId)"></correction>
+                </div>
+            </b-card-body>
+        </b-collapse>
+    </b-card>
 </template>
 
 <script>
@@ -43,6 +51,7 @@
 
         },
         created: function()  {
+            console.log('correction creator: '+ this.correctionSet.creator)
             this.fetchAvatarForUser(this.correctionSet.creator)
         },
         methods: {
@@ -71,19 +80,24 @@
                 })
             }
         },
+        computed: {
+            correctionSetAccordianId: function () {
+                return 'correction-set-' + this.correctionSet.id;
+            }
+        }
     }
 </script>
 
 <style scoped>
+
+    .collapsed > .when-opened,
+    :not(.collapsed) > .when-closed {
+        display: none;
+    }
+
     .avatar {
         clear: initial;
         margin-bottom: 2em;
-    }
-
-    .correction-set {
-        margin-left: 1em;
-        margin-right: 1em;
-        margin-top: 2em;
     }
 
     .aParent div {

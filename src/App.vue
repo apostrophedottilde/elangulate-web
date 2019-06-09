@@ -2,13 +2,13 @@
   <div id="app">
     <header-navbar></header-navbar>
     <div class="row">
-      <div class="col-lg-4 col-sm-0">
+      <div class="col-lg-4 col-md-4 col-sm-0">
 
       </div>
-      <div class="col-lg-8 col-sm-12">
+      <div class="col-lg-8 col-md-8 col-sm-12">
         <router-view/>
       </div>
-      <div class="col-lg-4 col-sm-0">
+      <div class="col-lg-4 col-md-4 col-sm-0">
 
       </div>
     </div>
@@ -17,19 +17,11 @@
 
 <script>
 import HeaderNavbar from './components/HeaderNavbar'
-import LoginPage from './components/LoginPage'
-import UserRegistrationPage from './components/UserRegistrationPage'
-import BrowseThreadsPage from './components/RelevantJournalEntries'
-import JournalEntry from "./components/JournalEntry";
 
 export default {
   name: 'app',
   components: {
-    BrowseThreadsPage,
-    UserRegistrationPage,
     HeaderNavbar,
-    JournalEntry,
-    LoginPage,
   }
 }
 

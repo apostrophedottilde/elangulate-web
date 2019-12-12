@@ -9,6 +9,20 @@
 
         <div class="input-group mb-3">
             <div class="input-group-prepend">
+                <span class="input-group-text">First name</span>
+            </div>
+            <input v-model="firstName" type="text" class="form-control" placeholder="First name" aria-label="First name">
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Last name</span>
+            </div>
+            <input v-model="lastName" type="text" class="form-control" placeholder="Last name" aria-label="Last name">
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
                 <span class="input-group-text">Email</span>
             </div>
             <input v-model="email" type="email" class="form-control" aria-label="Email"/>
@@ -21,116 +35,43 @@
             <input v-model="password" type="password"  class="form-control" aria-label="Password"/>
         </div>
 
-        <div class="container">
-            <div class="large-12 medium-12 small-12 cell">
-                <label>File
-                    <input type="file" id="profileImage" ref="image" v-on:change="handleFileUpload()"/>
-                </label>
-            </div>
-        </div>
-
-        <div class="input-group mb-3">
-            <div>
-                <div class="input-group mb-3">
-                    <select v-on:change="handleAddForeignLanguage($event.target.value)">
-                        <option disabled value="">Please select languages you are learning</option>
-                        <option v-for="lang in availableLanguages" :value="lang">{{lang}}</option>
-                    </select>
-                </div>
-                <div class="input-group mb-3">
-                    <select v-on:change="handleAddNativeLanguage($event.target.value)">
-                        <option disabled value="">Please select your native-level languages</option>
-                        <option v-for="lang in availableLanguages" :value="lang">{{lang}}</option>
-                    </select>
-                </div>
-
-                <div>
-                    <div class="aParent">
-                        Foreign languages learning:
-                        <span class="aParent" v-for="(lang, index) in foreignLanguages" v-bind:key="lang+index">
-                            <b-badge class="aParent" pill variant="info">{{lang}}</b-badge>
-                        </span>
-                    </div>
-                    <div class="aParent">
-                        Native spoken languages:
-                        <span v-for="(lang, index) in nativeLanguages" v-bind:key="lang+index">
-                            <b-badge class="aParent" pill variant="success">{{lang}}</b-badge>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <input v-on:click="registerUser" type="button" value="Register" class="btn btn-primary"/>
     </form>
 </template>
 
 <script>
     import axios from 'axios'
+
     export default {
         name: 'user-registration-form',
         data: () => {
             return {
-                image: '',
                 username: '',
+                firstName: '',
+                lastName: '',
                 password: '',
-                email: '',
-                foreignLanguages: [],
-                nativeLanguages: [],
-                availableLanguages: []
+                email: ''
             }
-        },
-        created: function() {
-            this.fetchAvailableLanguages()
         },
         methods: {
             registerUser: function () {
-                const base = process.env.VUE_APP_API_ROOT_URL;
+                let data = {
+                    username: this.username,
+                    firstName: this.firstName,
+                    lastName: this.lastName,
+                    email: this.email,
+                    password: this.password,
+                };
 
-                let formData = new FormData();
-                console.log('upload image name:: ' + JSON.stringify(this.image));
-                formData.append('image', this.image);
-                formData.append('username', this.username);
-                formData.append('email', this.email);
-                formData.append('password', this.password);
-                formData.append('learningLanguages', this.foreignLanguages);
-                formData.append('nativeLanguages', this.nativeLanguages);
-
-
-                axios.post(`${base}/users/sign-up`, formData, {
-                    headers: {headers: {"Content-Type": "multipart/form-data"}}
-                }).then(function(){
+                axios.post(`http://localhost:4000/api/users`, data, {
+                    headers: {headers: {"Content-Type": "application/json"}}
+                })
+                .then(function(){
 
                 })
                 .catch(err => {
                     console.error(err)
                 });
-            },
-            handleFileUpload(){
-                this.image = this.$refs.image.files[0];
-            },
-            handleAddForeignLanguage(lang){
-                this.foreignLanguages.push(lang);
-            },
-            handleAddNativeLanguage(lang){
-                this.nativeLanguages.push(lang);
-            },
-            fetchAvailableLanguages: function () {
-                const base = process.env.VUE_APP_API_ROOT_URL;
-                const jwt = this.$cookie.get('jwt');
-
-                axios.get(`${base}/languages`,{
-                    headers: {
-                        'Authorization': jwt,
-                            'Content-Type': 'multipart/form-data'
-                    }
-                })
-                .then(result => {
-                    this.availableLanguages = result.data
-                })
-                .catch(error => {
-                    console.error(error)
-                })
             }
         }
     }
@@ -138,12 +79,4 @@
 
 <style scoped>
 
-    .aParent div {
-        float: left;
-        clear: none;
-    }
-
-    .bParent div {
-        clear: none;
-    }
 </style>

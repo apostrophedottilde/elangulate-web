@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import HeaderNavbar from './components/HeaderNavbar'
+import HeaderNavbar from './components/common/HeaderNavbar'
 
 export default {
   name: 'app',

@@ -29,9 +29,9 @@
 
 <script>
     import axios from 'axios'
-    import Correction from "./Correction";
-    import CorrectionSets from "./CorrectionSets";
-    import NewCorrectionSetSuggestion from "./NewCorrectionSetSuggestion";
+    import Correction from "../components/Correction";
+    import CorrectionSets from "../components/CorrectionSets";
+    import NewCorrectionSetSuggestion from "../components/NewCorrectionSetSuggestion";
 
     export default {
         name: "journal-entry",
@@ -53,7 +53,7 @@
         },
          methods: {
              addCorrectionSet: function(correctionSet) {
-                 console.log('Added a correction set and received event in JournalEntry.vue ' + JSON.stringify(correctionSet))
+                 console.log('Added a correction set and received event in JournalEntryPage.vue ' + JSON.stringify(correctionSet))
              },
             fetchJournalEntry: async function(id) {
                 const jwt = this.$cookie.get('jwt');

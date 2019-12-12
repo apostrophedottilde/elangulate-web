@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import RelevantJournalEntries from './components/RelevantJournalEntries'
-import UserRegistrationPage from './components/UserRegistrationPage'
-import LoginPage from './components/LoginPage'
-import JournalEntry from './components/JournalEntry'
-import NewThread from './components/NewJournalEntry'
+import RelevantJournalEntries from './views/JournalEntriesHomePage'
+import UserRegistrationPage from './views/UserRegistrationPage'
+import LoginPage from './views/LoginPage'
+import JournalEntry from './views/JournalEntryPage'
+import NewThread from './views/NewJournalEntryPage'
 import ChatPage from './components/ChatPage'
 
 

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import Thumbnail from './components/ThumbnailImage'
+import Thumbnail from './components/common/ThumbnailImage'
 import VueCookie from 'vue-cookie'
 import BootstrapVue from 'bootstrap-vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'

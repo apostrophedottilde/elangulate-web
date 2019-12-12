@@ -34,7 +34,7 @@
         },
         methods: {
             addCorrectionSet: function() {
-                console.log('Added a correction set and received event in JournalEntry.vue')
+                console.log('Added a correction set and received event in JournalEntryPage.vue')
             },
             submitCorrectionSet: function(corrections, entrySentences) {
                 const jwt = this.$cookie.get('jwt');

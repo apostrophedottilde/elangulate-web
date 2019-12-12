@@ -5,6 +5,8 @@ import UserRegistrationPage from './components/UserRegistrationPage'
 import LoginPage from './components/LoginPage'
 import JournalEntry from './components/JournalEntry'
 import NewThread from './components/NewJournalEntry'
+import ChatPage from './components/ChatPage'
+
 
 Vue.use(Router);
 
@@ -40,6 +42,11 @@ export default new Router({
             path: '/journal-entries',
             name: 'relevant-journal-entries',
             component: RelevantJournalEntries
-        }
+        },
+        {
+            path: '/chat',
+            name: 'chat-page',
+            component: ChatPage
+        },
     ]
 })

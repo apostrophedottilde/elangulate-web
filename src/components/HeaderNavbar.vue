@@ -8,6 +8,7 @@
             <b-navbar-nav>
                 <router-link class="nav-link" :to="{ name: 'new-journal-entry', params: { id: 1234 } }">Make A journal entry</router-link>
                 <router-link class="nav-link" :to="{ name: 'relevant-journal-entries', params: { id: 1234 } }">Browse latest Entries</router-link>
+                <router-link class="nav-link" :to="{ name: 'chat-page' }">Chat</router-link>
             </b-navbar-nav>
 
             <b-navbar-nav class="ml-auto">

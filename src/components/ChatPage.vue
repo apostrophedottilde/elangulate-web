@@ -41,7 +41,6 @@
             this.channel.push("post_message", {text: "You can meet with you classmates and your tutor and hav interactive lessons here.", poster: "Bot"});
 
             this.channel.on('message_received', payload => this.messages.push({text: payload.text, poster: payload.poster}));
-
         },
         methods: {
             submitMessage: function() {

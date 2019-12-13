@@ -40,7 +40,7 @@
 </template>
 
 <script>
-    import axios from 'axios'
+    import { Socket, Channel} from 'phoenix-socket'
 
     export default {
         name: 'user-registration-form',
@@ -50,28 +50,30 @@
                 firstName: '',
                 lastName: '',
                 password: '',
-                email: ''
+                email: '',
+                channel: null,
+                socket: null
             }
+        },
+        created: function() {
+            this.socket = new Socket("ws://localhost:4000/socket");
+            this.socket.connect();
+            this.channel = this.socket.channel("user:management", {});
+            this.channel.join()
+                .receive("ok", resp => this.response = "Joined user management successfully")
+                .receive("error", resp => this.response = "Unable to join user management");
+            this.channel.on('user_registered', payload => console.log("Registered new user: " + JSON.stringify(payload)));
+
         },
         methods: {
             registerUser: function () {
-                let data = {
+                this.channel.push('register_user', {
                     username: this.username,
                     firstName: this.firstName,
                     lastName: this.lastName,
-                    email: this.email,
                     password: this.password,
-                };
-
-                axios.post(`http://localhost:4000/api/users`, data, {
-                    headers: {headers: {"Content-Type": "application/json"}}
+                    email: this.email
                 })
-                .then(function(){
-
-                })
-                .catch(err => {
-                    console.error(err)
-                });
             }
         }
     }

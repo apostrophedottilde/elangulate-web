@@ -53,6 +53,9 @@
 
             });
 
+            this.channel.on('paragraph_splitted', payload => {
+                console.log("Paragraph Splitted: " + JSON.stringify(payload))
+            });
         },
         methods: {
             startConversation: function() {

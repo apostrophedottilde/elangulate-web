@@ -54,7 +54,11 @@
             });
 
             this.channel.on('paragraph_splitted', payload => {
-                console.log("Paragraph Splitted: " + JSON.stringify(payload))
+                console.log(payload)
+            });
+
+            this.channel.on('sentence_diffed', payload => {
+                console.log(payload)
             });
         },
         methods: {

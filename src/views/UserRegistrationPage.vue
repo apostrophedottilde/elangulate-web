@@ -62,7 +62,10 @@
             this.channel.join()
                 .receive("ok", resp => this.response = "Joined user management successfully")
                 .receive("error", resp => this.response = "Unable to join user management");
-            this.channel.on('user_registered', payload => console.log("Registered new user: " + JSON.stringify(payload)));
+            this.channel.on('user_registered', payload => {
+                console.log('Bearer ' + payload.jwt);
+                const jwt = this.$cookie.set("jwt", 'Bearer ' + payload.jwt);
+            });
 
         },
         methods: {

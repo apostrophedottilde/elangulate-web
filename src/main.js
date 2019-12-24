@@ -10,7 +10,8 @@ import { faChevronRight, faChevronLeft, faChevronDown, faChevronUp } from '@fort
 import { faCoffee, faComment } from '@fortawesome/free-solid-svg-icons'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-
+import {WebRTC} from 'vue-webrtc'
+Vue.component(WebRTC.name, WebRTC)
 Vue.use(BootstrapVue);
 Vue.use(VueCookie);
 Vue.component('font-awesome-icon', FontAwesomeIcon)
